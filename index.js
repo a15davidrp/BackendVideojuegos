@@ -1,22 +1,56 @@
-'use strict'
-var app = require('./app')
-var mongoose = require('mongoose');
-var port = process.env.PORT || 3678
-
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const PUERTO = 3678;
+const app = express();
+ 
+app.use(bodyParser.urlencoded( {extended:false} ));
+app.use(bodyParser.json());
+ 
+ 
+// midle ware
+app.use( (req, res, next) => {
+    //permitimos que las peticiones se puedan hacer desde cualquier sitio
+    res.header('Access-Control-Allow-Origin', '*')
+    //res.header('Access-Control-Allow-Origin', '192.168.0.11')
+    // configuramos las cabeceras que pueden llegar
+    res.header('Access-Control-Allow-Headers', 'X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method' )
+    // configuramos los métodos que nos pueden llegar
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE')
+    next(); // para que se salga de esta función
+})
+ 
+ 
+/*mongoose.connect('mongoosedb://localhost:27017/coches', (err,res)=>{
+    if(err){
+        console.log('Fallo en BD' + err)
+        throw err
+    }else{
+        console.log('Conexión con mongo correcta')
+         
+        app.listen(PUERTO, ()=>{
+            console.log('El servidor se arranco correctamente')
+        })
+    }
+})*/
+ 
 bd = 'mongodb+srv://root:root@clusterprueba-dpivw.mongodb.net/test?retryWrites=true'
 
-app.get('/', (req, res) =>{   
-    res.status(200).send('Bien');
+mongoose.connect(bd, { useNewUrlParser: true, useFindAndModify:false }).then(
+    () => {  
+        console.log('Conexión con mongo correcta') 
+        app.listen(PUERTO, ()=>{
+            console.log('El servidor se arranco correctamente')
+        })
+    },err => { console.log('fallo en la base de datos:'+err) }
+)
+ 
+ 
+ 
+ 
+ 
+ 
+app.get('/', (req,res)=>{
+    res.status(200).send("hola angel que tal")
 })
-
-mongoose.connect(bd, (err, res) => {
-    if (err) {
-        throw err;
-    } else {
-        console.log('Conexión a mongodb correcta.')
-        app.listen(port, () => {
-            console.log("API REST funcionando en http://localhost:" + port);
-        });
-    }
-});
-
