@@ -5,6 +5,10 @@ var port = process.env.PORT || 3678
 
 bd = 'mongodb+srv://root:root@clusterprueba-dpivw.mongodb.net/test?retryWrites=true'
 
+app.get('/', (req, res) =>{   
+    res.status(200).send('Bien');
+})
+
 mongoose.connect(bd, (err, res) => {
     if (err) {
         throw err;
