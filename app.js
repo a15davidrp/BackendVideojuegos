@@ -23,6 +23,9 @@ app.use((req, res, next) => {
 })
 
 
-app.use('/api', api, /)
+app.use('/api', api);
+app.get('/', (req, res) =>{   
+    res.status(200).send('Bien');
+})
 
 module.exports = app
