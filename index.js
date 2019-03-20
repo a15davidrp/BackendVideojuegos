@@ -3,8 +3,9 @@ var app = require('./app')
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3678
 
+bd = 'mongodb+srv://root:root@clusterprueba-dpivw.mongodb.net/test?retryWrites=true'
 
-mongoose.connect('mongodb://localhost:27017/games', (err, res) => {
+mongoose.connect(bd, (err, res) => {
     if (err) {
         throw err;
     } else {
