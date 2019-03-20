@@ -35,6 +35,10 @@ app.use( (req, res, next) => {
     }
 })*/
  
+app.get('/', (req,res)=>{
+    res.status(200).send("hola angel que tal")
+})
+
 bd = 'mongodb+srv://root:root@clusterprueba-dpivw.mongodb.net/test?retryWrites=true'
 
 mongoose.connect(bd, { useNewUrlParser: true, useFindAndModify:false }).then(
@@ -51,6 +55,3 @@ mongoose.connect(bd, { useNewUrlParser: true, useFindAndModify:false }).then(
  
  
  
-app.get('/', (req,res)=>{
-    res.status(200).send("hola angel que tal")
-})
